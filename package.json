@@ -7,14 +7,21 @@
 		"vscode": "^1.46.0"
 	},
 	"categories": [
-		"Linters"
+		"Linters",
+		"Snippets"
 	],
 	"activationEvents": [
 		"onLanguage:c"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-	},
+        "snippets": [
+            {
+                "language": "c",
+				"path": "./snippets/snippets.code-snippets"
+            }
+        ]
+    },
 	"keywords": [
 		"c",
 		"DocGen",

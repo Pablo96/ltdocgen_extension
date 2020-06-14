@@ -1,0 +1,13 @@
+{
+    "DocFile": {
+        "scope": "c",
+        "prefix": "docfile",
+        "body": [
+            "$BLOCK_COMMENT_START*",
+            " * @author John Doe",
+            " * @file $TM_FILENAME",
+            " * @brief This file contains things.",
+            " *$BLOCK_COMMENT_END"
+        ]
+    }
+}
