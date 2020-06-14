@@ -1,7 +1,7 @@
 {
 	"name": "ltdocgen",
 	"displayName": "Llamathrust DocGen",
-	"description": "Llamathrust documentation extension",
+	"description": "Llamathrust comments autocompleter and linter for documentation generation.",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -23,7 +23,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Pablo96/ltdocgen.git"
+		"url": "https://github.com/Pablo96/ltdocgen_extension.git"
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
