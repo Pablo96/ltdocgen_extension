@@ -15,8 +15,8 @@ export enum CommentkeyWords {
 	TYPE,
 	FUNC,
 	PARAM,
-	AUTHOR,
 	FILE,
+	AUTHOR,
 	BRIEF,
 	NOTE
 };
