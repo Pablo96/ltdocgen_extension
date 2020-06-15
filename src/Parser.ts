@@ -116,10 +116,10 @@ function isVsCodeAutoComplete(line: string): boolean {
 
 export function parse(activeEditor: vscode.TextEditor) : CodeContextInfo {
 	let vsAutoGenComment: boolean = false;
-	let commentType: CommentType = CommentType.FILE;
+	let commentType: CommentType = CommentType.METHOD;
  
-	/*
 	let line: string = "";
+	/*
 	let logicalLine: string = "";
 	let nextLine: vscode.Position = new vscode.Position(activeEditor.selection.active.line + 1,
 														activeEditor.selection.active.character);
@@ -186,12 +186,13 @@ export function parse(activeEditor: vscode.TextEditor) : CodeContextInfo {
 
 	//let args: [CArg, CArg[]] = [new CArg(), []];
 
+	*/
+
 	if (activeEditor.selection.active.line === 0 && line.length === 0) { // head of file
 		commentType = CommentType.FILE;
 	} else {
 		//args = GetReturnAndArgs(line);
 	}
-	*/
 
 	vsAutoGenComment = isVsCodeAutoComplete("*/\n");
 	let contextInfo = new CodeContextInfo(commentType, vsAutoGenComment);
