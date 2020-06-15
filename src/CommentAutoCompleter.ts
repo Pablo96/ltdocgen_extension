@@ -62,12 +62,10 @@ export class CommentAutocompleter implements vscode.CompletionItemProvider {
 
 		let activeLineNotTrimmed: string = document.lineAt(activeLine).text;
 		let activeLineText: string = activeLineNotTrimmed.trim();
-		console.log('current line trimmed \'' + activeLineText + '\'');
+
 		// If it isn't inside a comment return
-		let invalidStartLine: boolean = (activeLineText.startsWith('*') || activeLineText.startsWith(triggerSequence));
-		let invalidLine: boolean = invalidStartLine && activeLineNotTrimmed.endsWith(' ');
-		console.log('current line ('+ invalidStartLine + ', ' + invalidLine + '): \'' + activeLineNotTrimmed + '\'');
-		if (invalidLine) {
+		if ((activeLineText.startsWith('*') || activeLineText.startsWith(triggerSequence))
+			&& activeLineNotTrimmed.endsWith(' ')) {
 			return null;
 		}
 		
