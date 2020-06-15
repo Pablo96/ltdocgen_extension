@@ -108,9 +108,4 @@ export class CommentAutocompleter implements vscode.CompletionItemProvider {
 		}
 		return items;
 	}
-
-	resolveCompletionItem?(item: vscode.CompletionItem, token: vscode.CancellationToken): vscode.ProviderResult<vscode.CompletionItem> {
-		//console.log('selected \'' + item.label + '\'');
-		return null;
-	}
 }
