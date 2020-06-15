@@ -114,13 +114,11 @@ function isVsCodeAutoComplete(line: string): boolean {
 	}
 }
 
-export function parse(activeEditor: vscode.TextEditor) : CodeContextInfo {
-	let vsAutoGenComment: boolean = false;
-	let commentType: CommentType = CommentType.METHOD;
- 
-	let line: string = "";
-	/*
+// Get the next line with valid logic (no comments or empty)
+function GetLogicLine(activeEditor: vscode.TextEditor): [string, CommentType] {
 	let logicalLine: string = "";
+	
+	// take the next line since comments are always above the line to document
 	let nextLine: vscode.Position = new vscode.Position(activeEditor.selection.active.line + 1,
 														activeEditor.selection.active.character);
 	let nextLineTxt: string = activeEditor.document.lineAt(nextLine.line).text.trim();
@@ -131,7 +129,6 @@ export function parse(activeEditor: vscode.TextEditor) : CodeContextInfo {
 	}
 
 	let currentNest: number = 0;
-	line = nextLineTxt;
 
 	// Get method end line
 	let linesToGet: number = 20;
@@ -160,13 +157,9 @@ export function parse(activeEditor: vscode.TextEditor) : CodeContextInfo {
 
 		// Head of file probably
 		if (nextLineTxt.startsWith("#include")) {
-			commentType = CommentType.FILE;
-			line = "";
-			break;
-		} else if (nextLineTxt.startsWith("typedef struct")) {
-			commentType = CommentType.COMPLEX;
-			line = "";
-			break;
+			return ["", CommentType.FILE];
+		} else if (nextLineTxt.startsWith("typedef struct") || nextLineTxt.startsWith("struct")) {
+			return ["", CommentType.COMPLEX];
 		}
 
 		if (!isVsCodeAutoComplete(nextLineTxt)) {
@@ -180,20 +173,31 @@ export function parse(activeEditor: vscode.TextEditor) : CodeContextInfo {
 		}
 
 		if (finalSlice >= 0) {
-			line = logicalLine.replace(/^\s+|\s+$/g, "");
+			return [logicalLine.replace(/^\s+|\s+$/g, ""), CommentType.UNKNOWN];
 		}
 	}
 
-	//let args: [CArg, CArg[]] = [new CArg(), []];
+	return ["", CommentType.UNKNOWN];
+}
 
-	*/
+export function parse(activeEditor: vscode.TextEditor) : CodeContextInfo {
+	let vsAutoGenComment: boolean = false;
+	let commentType: CommentType = CommentType.METHOD;
+	let line: string = "";
 
-	if (activeEditor.selection.active.line === 0 && line.length === 0) { // head of file
+	// head of file
+	if (activeEditor.selection.active.line === 0 && line.length === 0) {
 		commentType = CommentType.FILE;
-	} else {
-		//args = GetReturnAndArgs(line);
 	}
-
+	// Struct|Complex / var / method
+	else {
+		[line, commentType] = GetLogicLine(activeEditor);
+		if (commentType !== CommentType.FILE) {
+			//let args: [CArg, CArg[]] = [new CArg(), []];
+			//args = GetReturnAndArgs(line);
+		}
+	}
+	
 	vsAutoGenComment = isVsCodeAutoComplete("*/\n");
 	let contextInfo = new CodeContextInfo(commentType, vsAutoGenComment);
 	return contextInfo;
