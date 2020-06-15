@@ -14,6 +14,7 @@ enum CommentkeyWords {
 	STRUCT,
 	UNION,
 	FIELD,
+	TYPE,
 	FUNC,
 	PARAM,
 	AUTHOR,
@@ -22,7 +23,7 @@ enum CommentkeyWords {
 };
 
 const commentKeyWords: string[] = [
-	"variable ", "enum ", "struct ", "union ", "field ", "func ", "param ", "file ", "author ", "brief "
+	"variable ", "enum ", "struct ", "union ", "field ", "type ", "func ", "param ", "file ", "author ", "brief "
 ];
 
 const triggerSequence: string = "/**";
@@ -55,6 +56,7 @@ class CommentAutocompleter implements vscode.CompletionItemProvider {
 			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.UNION]),
 			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.FIELD]),
 			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.FUNC]),
+			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.TYPE]),
 			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.PARAM]),
 			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.AUTHOR]),
 			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.FILE]),
@@ -164,8 +166,9 @@ class EventChecker {
 function generateComplexDescription() : string {
 	const defaultComplexComment: string =
 		"/**" +
-		"\n* @" + commentKeyWords[CommentkeyWords.STRUCT] + "structName" + 
-		"\n* @" + commentKeyWords[CommentkeyWords.FIELD] + "fieldName:" + 
+		"\n* @" + commentKeyWords[CommentkeyWords.STRUCT] + "structName" +
+		"\n* @" + commentKeyWords[CommentkeyWords.FIELD] + "fieldName:" +
+		"\n*\t@" + commentKeyWords[CommentkeyWords.TYPE] + "char pointer" +
 		"\n*\t@" + commentKeyWords[CommentkeyWords.BRIEF] + "this field describe this thing." +
 		"\n**/";
 	return defaultComplexComment;
