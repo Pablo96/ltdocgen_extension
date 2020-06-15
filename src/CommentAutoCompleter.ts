@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
-import {commentKeyWords, CommentkeyWords } from './Commons';
+import {commentKeyWords, CommentkeyWords, triggerSequence, arroba, arrobaTab } from './Commons';
+import { activate } from './extension';
 
 export class CommentAutocompleter implements vscode.CompletionItemProvider {
 	firstStar: boolean = true;
@@ -12,18 +13,48 @@ export class CommentAutocompleter implements vscode.CompletionItemProvider {
 			return null;
 		}
 
+		let activeEditor: vscode.TextEditor | undefined = vscode.window.activeTextEditor;
+		if (activeEditor === undefined) {
+			return null;
+		}
+
+		let addNewLine: boolean = false;
+
+		let activeLine: number = activeEditor.selection.active.line;
+		let activeLineText = document.lineAt(activeLine).text.trim();
+		
+		if (activeLineText.startsWith(triggerSequence)) {
+			activeLine++;
+			activeLineText = document.lineAt(activeLine).text.trim();
+			if (activeLineText.endsWith('*/')) {
+				addNewLine = true;
+				activeLine--;
+				activeLineText = document.lineAt(activeLine).text.trim();
+			}
+		} else if (activeLineText.endsWith('*/')) {
+			activeLine--;
+			activeLineText = document.lineAt(activeLine).text.trim();
+			if (activeLineText.startsWith(triggerSequence)) {
+				addNewLine = true;
+			}
+		} else if (!activeLineText.startsWith('*')) {
+			return null;
+		}
+		
+		let newLine: string = addNewLine? arroba : "";
+
 		return [
-			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.VARIABLE]),
-			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.ENUM]),
-			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.STRUCT]),
-			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.UNION]),
-			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.FIELD]),
-			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.FUNC]),
-			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.TYPE]),
-			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.PARAM]),
-			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.AUTHOR]),
-			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.FILE]),
-			new vscode.CompletionItem(commentKeyWords[CommentkeyWords.BRIEF]),
+			new vscode.CompletionItem(newLine + commentKeyWords[CommentkeyWords.VARIABLE]),
+			new vscode.CompletionItem(newLine + commentKeyWords[CommentkeyWords.ENUM]),
+			new vscode.CompletionItem(newLine + commentKeyWords[CommentkeyWords.STRUCT]),
+			new vscode.CompletionItem(newLine + commentKeyWords[CommentkeyWords.UNION]),
+			new vscode.CompletionItem(newLine + commentKeyWords[CommentkeyWords.FIELD]),
+			new vscode.CompletionItem(newLine + commentKeyWords[CommentkeyWords.FUNC]),
+			new vscode.CompletionItem(newLine + commentKeyWords[CommentkeyWords.PARAM]),
+			new vscode.CompletionItem(newLine + commentKeyWords[CommentkeyWords.AUTHOR]),
+			new vscode.CompletionItem(newLine + commentKeyWords[CommentkeyWords.FILE]),
+			new vscode.CompletionItem((addNewLine? arrobaTab : "") + commentKeyWords[CommentkeyWords.BRIEF]),
+			new vscode.CompletionItem((addNewLine? arrobaTab : "") + commentKeyWords[CommentkeyWords.TYPE]),
 		];
 	}
 }

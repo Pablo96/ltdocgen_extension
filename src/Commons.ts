@@ -26,3 +26,6 @@ export const commentKeyWords: string[] = [
 ];
 
 export const triggerSequence: string = "/**";
+export const arroba: string = "\n * @";
+export const arrobaTab: string = "\n *\t@";
+export const endLine: string = "\n **/";

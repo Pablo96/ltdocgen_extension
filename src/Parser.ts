@@ -1,46 +1,48 @@
 import * as vscode from 'vscode';
 import { CodeContextInfo } from './CodeContextInfo';
-import { commentKeyWords, CommentkeyWords, CommentType, triggerSequence } from './Commons';
+import { commentKeyWords, CommentkeyWords, CommentType, triggerSequence, arroba, arrobaTab, endLine } from './Commons';
 
 function generateFileDescription(fileName: string) : string {
 	const defaultFileComment: string =
-		"/**" +
-		"\n* @" + commentKeyWords[CommentkeyWords.FILE] + fileName +
-		"\n* @" + commentKeyWords[CommentkeyWords.AUTHOR] + "John Doe" +
-		"\n* @" + commentKeyWords[CommentkeyWords.BRIEF] + "This file contains this thing." +
-		"\n**/";
+		triggerSequence +
+		arroba + commentKeyWords[CommentkeyWords.FILE] + fileName +
+		arroba + commentKeyWords[CommentkeyWords.AUTHOR] + "John Doe" +
+		arroba + commentKeyWords[CommentkeyWords.BRIEF] + "This file contains this thing." +
+		endLine;
 	return defaultFileComment;
 }
 
 function generateComplexDescription() : string {
 	const defaultComplexComment: string =
-		"/**" +
-		"\n* @" + commentKeyWords[CommentkeyWords.STRUCT] + "structName" +
-		"\n* @" + commentKeyWords[CommentkeyWords.FIELD] + "fieldName:" +
-		"\n*\t@" + commentKeyWords[CommentkeyWords.TYPE] + "char pointer" +
-		"\n*\t@" + commentKeyWords[CommentkeyWords.BRIEF] + "this field describe this thing." +
-		"\n**/";
+		triggerSequence +
+		arroba + commentKeyWords[CommentkeyWords.STRUCT] + "structName" +
+		arroba + commentKeyWords[CommentkeyWords.BRIEF] + "this struct represent this thing." +
+		arroba + commentKeyWords[CommentkeyWords.FIELD] + "fieldName:" +
+		arrobaTab + commentKeyWords[CommentkeyWords.TYPE] + "char pointer" +
+		arrobaTab + commentKeyWords[CommentkeyWords.BRIEF] + "this field describe this thing." +
+		endLine;
 	return defaultComplexComment;
 }
 
 function generateMethodDeription() : string {
 	const defaultMethodComment: string =
-		"/**" +
-		"\n* @" + commentKeyWords[CommentkeyWords.FUNC] + "funcName" +
-		"\n* @" + commentKeyWords[CommentkeyWords.PARAM] + "paramName:" +
-		"\n*\t@" + commentKeyWords[CommentkeyWords.TYPE] + "char pointer" +
-		"\n*\t@" + commentKeyWords[CommentkeyWords.BRIEF] + "this param describe this thing." +
-		"\n**/";
+		triggerSequence +
+		arroba + commentKeyWords[CommentkeyWords.FUNC] + "funcName" +
+		arroba + commentKeyWords[CommentkeyWords.BRIEF] + "this function does this thing." +
+		arroba + commentKeyWords[CommentkeyWords.PARAM] + "paramName:" +
+		arrobaTab + commentKeyWords[CommentkeyWords.TYPE] + "char pointer" +
+		arrobaTab + commentKeyWords[CommentkeyWords.BRIEF] + "this param describe this thing." +
+		endLine;
 	return defaultMethodComment;
 }
 
 function generateVariableDeription() : string {
 	const defaultVariableComment: string =
-		"/**" +
-		"\n* @" + commentKeyWords[CommentkeyWords.VARIABLE] + "varName" + 
-		"\n*\t@" + commentKeyWords[CommentkeyWords.TYPE] + "char pointer" +
-		"\n*\t@" + commentKeyWords[CommentkeyWords.BRIEF] + "this variable describe this thing." +
-		"\n**/";
+		triggerSequence +
+		arroba + commentKeyWords[CommentkeyWords.VARIABLE] + "varName" + 
+		arrobaTab + commentKeyWords[CommentkeyWords.TYPE] + "char pointer" +
+		arrobaTab + commentKeyWords[CommentkeyWords.BRIEF] + "this variable describe this thing." +
+		endLine;
 	return defaultVariableComment;
 }
 
