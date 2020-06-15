@@ -24,7 +24,6 @@ export class EventChecker {
 	
 	private onEvent(activeEditor: vscode.TextEditor, event: vscode.TextDocumentContentChangeEvent) {
 		const lang: string = activeEditor.document.languageId;
-		console.log("LT_DOCGEN::OnEvent");
 
 		if (lang !== 'c') {
 			console.log("No comments can be generated for language: " + lang);
@@ -35,7 +34,6 @@ export class EventChecker {
 			return null;
 		}
 	
-		console.log("LT_DOCGEN::AfterCheck");
 		const currentPos: vscode.Position = activeEditor.selection.active;
 		const startReplace: vscode.Position = new vscode.Position(
 			currentPos.line,
