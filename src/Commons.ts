@@ -22,7 +22,7 @@ export enum CommentkeyWords {
 };
 
 export const commentKeyWords: string[] = [
-	"variable ", "enum ", "struct ", "union ", "field ", "type ", "func ", "param ", "file ", "author ", "brief ", "note "
+	"var ", "enum ", "struct ", "union ", "field ", "type ", "func ", "param ", "file ", "author ", "brief ", "note "
 ];
 
 export const triggerSequence: string = "/**";

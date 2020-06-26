@@ -159,9 +159,9 @@ function GetLogicLine(activeEditor: vscode.TextEditor): [string, CommentType] {
 
 		// Head of file probably
 		if (nextLineTxt.startsWith("#include")) {
-			return ["", CommentType.FILE];
+			return [nextLineTxt, CommentType.FILE];
 		} else if (nextLineTxt.startsWith("typedef struct") || nextLineTxt.startsWith("struct")) {
-			return ["", CommentType.COMPLEX];
+			return [nextLineTxt, CommentType.COMPLEX];
 		}
 
 		if (!isVsCodeAutoComplete(nextLineTxt)) {
@@ -175,7 +175,7 @@ function GetLogicLine(activeEditor: vscode.TextEditor): [string, CommentType] {
 		}
 
 		if (finalSlice >= 0) {
-			return [logicalLine.replace(/^\s+|\s+$/g, ""), CommentType.UNKNOWN];
+			return [logicalLine.replace(/^\s+|\s+$/g, ""), CommentType.METHOD];
 		}
 	}
 
@@ -194,9 +194,17 @@ export function parse(activeEditor: vscode.TextEditor) : CodeContextInfo {
 	// Struct|Complex / var / method
 	else {
 		[line, commentType] = GetLogicLine(activeEditor);
-		if (commentType !== CommentType.FILE) {
+		switch (commentType) {
+		case CommentType.COMPLEX:
 			//let args: [CArg, CArg[]] = [new CArg(), []];
 			//args = GetReturnAndArgs(line);
+			break;
+		case CommentType.VARIABLE:
+		case CommentType.METHOD:
+			break;
+		case CommentType.FILE:
+		default:
+			break;
 		}
 	}
 	
