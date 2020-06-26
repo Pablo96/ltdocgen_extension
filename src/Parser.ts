@@ -46,6 +46,26 @@ function generateVariableDeription() : string {
 	return defaultVariableComment;
 }
 
+function generateDefDeription() : string {
+	const defaultVariableComment: string =
+		triggerSequence +
+		arroba + commentKeyWords[CommentkeyWords.DEF] + "define name" + 
+		arrobaTab + commentKeyWords[CommentkeyWords.BRIEF] + "this define does this thing." +
+		arrobaTab + commentKeyWords[CommentkeyWords.PARAM] + "(optional)" +
+		endLine;
+	return defaultVariableComment;
+}
+
+function generateEnumDeription() : string {
+	const defaultVariableComment: string =
+		triggerSequence +
+		arroba + commentKeyWords[CommentkeyWords.ENUM] + "Enum name" + 
+		arrobaTab + commentKeyWords[CommentkeyWords.BRIEF] + "this enum represent this thing." +
+		arrobaTab + commentKeyWords[CommentkeyWords.TAG] + "(optional)" +
+		endLine;
+	return defaultVariableComment;
+}
+
 function moveCursor(activeEditor: vscode.TextEditor, comment: string, baseLine: number, baseCharacter: number) {
 	// Find first offset of a new line in the comment. Since that's when the line where the first param starts.
 	let line: number = baseLine;
@@ -81,6 +101,12 @@ export function GenerateDoc(activeEditor: vscode.TextEditor, contextInfo: CodeCo
 		break;
 	case CommentType.VARIABLE:
 		comment = generateVariableDeription();
+		break;
+	case CommentType.DEF:
+		comment = generateDefDeription();
+		break;
+	case CommentType.ENUM:
+		comment = generateEnumDeription();
 		break;
 	default:
 		console.log("CommentType not supported.");
@@ -160,8 +186,13 @@ function GetLogicLine(activeEditor: vscode.TextEditor): [string, CommentType] {
 		// Head of file probably
 		if (nextLineTxt.startsWith("#include")) {
 			return [nextLineTxt, CommentType.FILE];
-		} else if (nextLineTxt.startsWith("typedef struct") || nextLineTxt.startsWith("struct")) {
+		} else if (nextLineTxt.startsWith("#define")) {
+			return [nextLineTxt, CommentType.DEF];
+		 } else if (nextLineTxt.startsWith("typedef struct") || nextLineTxt.startsWith("struct") ||
+					nextLineTxt.startsWith("typedef union") || nextLineTxt.startsWith("union")) {
 			return [nextLineTxt, CommentType.COMPLEX];
+		} else if (nextLineTxt.startsWith("typedef enum") || nextLineTxt.startsWith("enum")) {
+			return [nextLineTxt, CommentType.ENUM];
 		}
 
 		if (!isVsCodeAutoComplete(nextLineTxt)) {
@@ -195,6 +226,7 @@ export function parse(activeEditor: vscode.TextEditor) : CodeContextInfo {
 	else {
 		[line, commentType] = GetLogicLine(activeEditor);
 		switch (commentType) {
+		case CommentType.ENUM:
 		case CommentType.COMPLEX:
 			//let args: [CArg, CArg[]] = [new CArg(), []];
 			//args = GetReturnAndArgs(line);
@@ -203,6 +235,7 @@ export function parse(activeEditor: vscode.TextEditor) : CodeContextInfo {
 		case CommentType.METHOD:
 			break;
 		case CommentType.FILE:
+		case CommentType.DEF:
 		default:
 			break;
 		}

@@ -3,6 +3,8 @@ export enum CommentType {
 	COMPLEX,
 	VARIABLE,
 	FILE,
+	DEF,
+	ENUM,
 	UNKNOWN
 }
 
@@ -18,14 +20,16 @@ export enum CommentkeyWords {
 	FILE,
 	AUTHOR,
 	BRIEF,
-	NOTE
+	NOTE,
+	DEF,
+	TAG
 };
 
 export const commentKeyWords: string[] = [
-	"var ", "enum ", "struct ", "union ", "field ", "type ", "func ", "param ", "file ", "author ", "brief ", "note "
+	"var ", "enum ", "struct ", "union ", "field ", "type ", "func ", "param ", "file ", "author ", "brief ", "note ", "def ", "tag "
 ];
 
 export const triggerSequence: string = "/**";
 export const arroba: string = "\n * @";
-export const arrobaTab: string = "\n *\t@";
+export const arrobaTab: string = "\n *\t\t@";
 export const endLine: string = "\n **/";
