@@ -3,6 +3,7 @@
 	"displayName": "Llamathrust DocGen",
 	"description": "Llamathrust comments autocompleter and linter for documentation generation.",
 	"version": "0.0.1",
+	"publisher": "PabloNarvaja",
 	"engines": {
 		"vscode": "^1.46.0"
 	},
