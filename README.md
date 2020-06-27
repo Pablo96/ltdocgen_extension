@@ -3,7 +3,7 @@
 This is the Llamathrust Documentation Generator extension.
 This extension autogenerate comments for the LT DocGen program (yet to be developed).
 
-![Example](resources/example.gif)
+![Example](https://github.com/Pablo96/ltdocgen_extension/blob/master/resources/Example.gif)
 
 ## Features
 
