@@ -3,15 +3,17 @@
 This is the Llamathrust Documentation Generator extension.
 This extension autogenerate comments for the LT DocGen program (yet to be developed).
 
+![Example](resources/example.gif)
+
 ## Features
 
-The extention add the 'docfile' code snippet for generating a file documentation comment.
+The extention add the `docfile` code snippet for generating a file documentation comment.
 
-It also uses the '/**' hint to generate other types of comments including the 'docfile' type.
+It also uses the `/**` hint to generate other types of comments including the 'docfile' type.
 
 ## Requirements
 
-No dependencies needed.
+VS Code v1.46.
 
 ## Extension Settings
 
@@ -19,7 +21,8 @@ The extension is in early develpment stage. No configuration supported.
 
 ## Known Issues
 
-Right now it does not autocomplete the comments snippets nor figureout which type of comment you are rquesting.
+- Does not autocomplete the comments snippets.
+- Does not highlight the attr in comments (Can be done with [This](https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight) Extension)
 
 ## Release Notes
 
@@ -28,7 +31,7 @@ Right now it does not autocomplete the comments snippets nor figureout which typ
 Initial release of:
 * doctype snippet
 * file comment
-* default method comment
+* default doc comments
 
 -----------------------------------------------------------------------------------------------------------
 **Enjoy!**
